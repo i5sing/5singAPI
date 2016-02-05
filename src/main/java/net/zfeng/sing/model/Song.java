@@ -7,8 +7,21 @@ public class Song {
     private String id;
     private String name;
     private String author;
+    private String style;
     private int clickNumber;
     private int likeNumber;
+    private int downNumber;
+    private String lrcs;
+    private String introduction;
+    private String address;
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
 
     public String getId() {
         return id;
@@ -48,5 +61,37 @@ public class Song {
 
     public void setLikeNumber(int likeNumber) {
         this.likeNumber = likeNumber;
+    }
+
+    public int getDownNumber() {
+        return downNumber;
+    }
+
+    public void setDownNumber(int downNumber) {
+        this.downNumber = downNumber;
+    }
+
+    public String getLrcs() {
+        return lrcs;
+    }
+
+    public void setLrcs(String lrcs) {
+        this.lrcs = lrcs;
+    }
+
+    public String getIntroduction() {
+        return introduction;
+    }
+
+    public void setIntroduction(String introduction) {
+        this.introduction = introduction;
+    }
+
+    public String getStyle() {
+        return style;
+    }
+
+    public void setStyle(String style) {
+        this.style = style;
     }
 }

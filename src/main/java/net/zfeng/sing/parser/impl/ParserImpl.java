@@ -1,12 +1,13 @@
 package net.zfeng.sing.parser.impl;
 
+import net.zfeng.sing.exception.SingDataException;
 import net.zfeng.sing.model.Song;
 import net.zfeng.sing.model.SongList;
 import net.zfeng.sing.parser.IParser;
 import net.zfeng.sing.parser.config.SingCategory;
 import net.zfeng.sing.parser.config.SingType;
-import net.zfeng.sing.parser.config.SingUrls;
 import net.zfeng.sing.parser.config.SingUrl;
+import net.zfeng.sing.utils.SingUrls;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -22,7 +23,7 @@ import java.util.regex.Pattern;
  * Created by zhaofeng on 16/2/4.
  */
 public class ParserImpl implements IParser {
-    private static String SingIdRE = "^/m/space/([0-9]+).html$";
+    private static String SingIdRE = "^/m/detail/\\w+-([0-9]+)-\\d+.html$";
 
     /**
      * 加载并解析指定url的html
@@ -42,7 +43,7 @@ public class ParserImpl implements IParser {
      * @return
      */
     public String deleteExtraChar(String str) {
-        return str.replace("&nbsp;", "").replace(",", "").trim().replace(" ", "");
+        return str.replaceAll("&nbsp;", "").replaceAll(",", "").replaceAll("<br>", "").replaceAll(" ", "");
     }
 
     /**
@@ -53,12 +54,12 @@ public class ParserImpl implements IParser {
      * @param category
      * @return
      */
-    public SongList getSongs(SingType type, SingCategory category, int page) {
+    public SongList getSongs(SingType type, SingCategory category, int page) throws SingDataException {
         List<Song> songs = new ArrayList<Song>();
         SongList songList = new SongList();
         Pattern pattern = Pattern.compile(SingIdRE);
         try {
-            Document doc = parserHTML(SingUrls.getURL(SingUrl.SONG_LIST, type, category, page));
+            Document doc = parserHTML(SingUrls.getURL(SingUrl.SONG_LIST, type, category, page, null));
             Elements songListEl = doc.getElementById("yc_list_tj").getElementsByTag("li");
             int i = 0;
             while (i++ < songListEl.size() - 1) {
@@ -66,7 +67,7 @@ public class ParserImpl implements IParser {
                 Element nameEl = songEl.getElementsByTag("h4").get(0);
                 Element authorEl = nameEl.getElementsByTag("strong").size() > 0 ? nameEl.getElementsByTag("strong").get(0) : null;
                 Elements otherEls = songEl.getElementsByTag("span");
-                String hrefVal = songEl.getElementsByAttribute("href").attr("href");
+                String hrefVal = songEl.getElementsByTag("a").get(1).attr("href");
 
                 Matcher matcher = pattern.matcher(hrefVal);
 
@@ -95,10 +96,53 @@ public class ParserImpl implements IParser {
                 songs.add(song);
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new SingDataException("从五婶获取数据失败\n" + e.getMessage());
         }
         songList.setList(songs);
         songList.setPage(page);
         return songList;
+    }
+
+    /**
+     * 获取歌曲详情
+     *
+     * @param type
+     * @param page
+     * @param songId
+     * @return
+     */
+    public Song getSong(SingType type, int page, String songId) throws SingDataException {
+        Song song = new Song();
+
+        try {
+            Document doc = parserHTML(SingUrls.getURL(SingUrl.SONG_DETAIL, type, null, page, songId));
+            Elements infoEls = doc.getElementsByClass("info_con").get(0).getElementsByTag("span");
+            Element titleEl = doc.getElementsByClass("m_title").get(0);
+            Element mp3El = doc.getElementById("myPlayer");
+            Element introductionEl = doc.getElementsByClass("info_txt").get(0);
+            Element lrcEl = doc.getElementsByClass("info_txt").get(1);
+
+            song.setId(songId);
+            song.setName(titleEl.text().split(" - ")[1]);
+            song.setAddress(mp3El.attr("src"));
+            song.setIntroduction(introductionEl.text());
+            song.setLrcs(lrcEl.text());
+
+            if (infoEls.size() > 4) {
+                String author = deleteExtraChar(infoEls.get(4).text()).split(":")[1];
+                int clickNumber = Integer.parseInt(deleteExtraChar(infoEls.get(5).text()).split(":")[1]);
+                int downNumber = Integer.parseInt(deleteExtraChar(infoEls.get(3).text()).split(":")[1]);
+                String style = deleteExtraChar(infoEls.get(4).text()).split(":")[1];
+
+                song.setAuthor(author);
+                song.setClickNumber(clickNumber);
+                song.setDownNumber(downNumber);
+                song.setStyle(style);
+            }
+        } catch (IOException e) {
+            throw new SingDataException("从五婶获取数据失败\n" + e.getMessage());
+        }
+
+        return song;
     }
 }

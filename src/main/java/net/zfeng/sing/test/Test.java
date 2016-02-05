@@ -14,10 +14,12 @@ import java.util.List;
  * Created by zhaofeng on 16/2/4.
  */
 public class Test {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         IParser parser = new ParserImpl();
-        SongList list = parser.getSongs(SingType.FANCHANG, SingCategory.HOUXUAN, 1);
-
-        System.out.println(JSON.toJSON(list));
+        SongList songs = parser.getSongs(SingType.YUANCHUANG, SingCategory.TUIJIAN, 1);
+        System.out.println(songs);
+//        Song song = parser.getSong(SingType.YUANCHUANG, 1, "3015859");
+//
+//        System.out.println(JSON.toJSON(song));
     }
 }
