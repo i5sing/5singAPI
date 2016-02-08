@@ -8,7 +8,8 @@ import java.util.Map;
  */
 public enum SingUrl {
     SONG_LIST("http://5sing.kugou.com/m/list/{type}-{category}-{page}.html"),
-    SONG_DETAIL("http://5sing.kugou.com/m/detail/{type}-{songId}-1.html");
+    SONG_DETAIL("http://5sing.kugou.com/m/detail/{type}-{songId}-{page}.html"),
+    MUSICIAN_HOT("http://5sing.kugou.com/m/list/musician-hot-{page}.html");
 
     private String text;
 

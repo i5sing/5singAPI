@@ -1,6 +1,7 @@
 package net.zfeng.sing.parser;
 
 import net.zfeng.sing.exception.SingDataException;
+import net.zfeng.sing.model.MusicianList;
 import net.zfeng.sing.model.Song;
 import net.zfeng.sing.model.SongList;
 import net.zfeng.sing.parser.config.SingCategory;
@@ -13,4 +14,6 @@ public interface IParser {
     SongList getSongs(SingType type, SingCategory category, int page) throws SingDataException;
 
     Song getSong(SingType type, int page, String songId) throws SingDataException;
+
+    MusicianList getMusicians(int page) throws SingDataException;
 }

@@ -1,6 +1,8 @@
 package net.zfeng.sing.parser.impl;
 
 import net.zfeng.sing.exception.SingDataException;
+import net.zfeng.sing.model.Musician;
+import net.zfeng.sing.model.MusicianList;
 import net.zfeng.sing.model.Song;
 import net.zfeng.sing.model.SongList;
 import net.zfeng.sing.parser.IParser;
@@ -144,5 +146,35 @@ public class ParserImpl implements IParser {
         }
 
         return song;
+    }
+
+    /**
+     * 获取热门歌手列表
+     *
+     * @param page
+     * @return
+     */
+    public MusicianList getMusicians(int page) throws SingDataException {
+        MusicianList musicianList = new MusicianList();
+        List<Musician> musicians = new ArrayList<Musician>();
+        try {
+            Document doc = parserHTML(SingUrl.MUSICIAN_HOT.getText().replace("{page}", page + ""));
+            Elements imgEls = doc.getElementById("photolist").getElementsByTag("a");
+            int i = 0;
+            while (i++ < imgEls.size() - 1) {
+                Element imgEl = imgEls.get(i);
+                Musician musician = new Musician();
+                musician.setAddress(imgEl.attr("href"));
+                musician.setName(imgEl.getElementsByTag("span").get(0).text());
+                musician.setImgAddress(imgEl.getElementsByTag("img").get(0).attr("src"));
+                musicians.add(musician);
+            }
+        } catch (IOException e) {
+            throw new SingDataException("从五婶获取数据失败\n" + e.getMessage());
+        }
+
+        musicianList.setList(musicians);
+        musicianList.setPage(page);
+        return musicianList;
     }
 }

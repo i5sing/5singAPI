@@ -15,7 +15,7 @@ import javax.annotation.Resource;
  */
 @RestController
 @RequestMapping("/songs")
-public class SingController {
+public class SongController {
     @Resource
     private ISingService singService;
 
@@ -49,6 +49,5 @@ public class SingController {
         }
 
         return new ResModel(code, message, song);
-
     }
 }
