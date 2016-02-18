@@ -7,6 +7,7 @@ public class Song {
     private String id;
     private String name;
     private String author;
+    private String authorImg;
     private String style;
     private int clickNumber;
     private int likeNumber;
@@ -14,6 +15,14 @@ public class Song {
     private String lrcs;
     private String introduction;
     private String address;
+
+    public String getAuthorImg() {
+        return authorImg;
+    }
+
+    public void setAuthorImg(String authorImg) {
+        this.authorImg = authorImg;
+    }
 
     public String getAddress() {
         return address;

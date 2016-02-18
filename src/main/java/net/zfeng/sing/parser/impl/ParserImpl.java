@@ -118,6 +118,7 @@ public class ParserImpl implements IParser {
 
         try {
             Document doc = parserHTML(SingUrls.getURL(SingUrl.SONG_DETAIL, type, null, page, songId));
+            Element headEl = doc.getElementsByClass("info_con").get(0).getElementsByTag("img").get(0);
             Elements infoEls = doc.getElementsByClass("info_con").get(0).getElementsByTag("span");
             Element titleEl = doc.getElementsByClass("m_title").get(0);
             Element mp3El = doc.getElementById("myPlayer");
@@ -136,6 +137,7 @@ public class ParserImpl implements IParser {
                 int downNumber = Integer.parseInt(deleteExtraChar(infoEls.get(3).text()).split(":")[1]);
                 String style = deleteExtraChar(infoEls.get(4).text()).split(":")[1];
 
+                song.setAuthorImg(headEl.attr("src"));
                 song.setAuthor(author);
                 song.setClickNumber(clickNumber);
                 song.setDownNumber(downNumber);
