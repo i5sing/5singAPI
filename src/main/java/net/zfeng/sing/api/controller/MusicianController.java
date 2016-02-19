@@ -7,9 +7,7 @@ import net.zfeng.sing.model.MusicianList;
 import net.zfeng.sing.model.ResModel;
 import net.zfeng.sing.model.SongList;
 import net.zfeng.sing.utils.Conversion;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
@@ -30,6 +28,22 @@ public class MusicianController {
 
         try {
             musicianList = musicianService.getMusicians(page);
+        } catch (SingDataException e) {
+            code = "400";
+            message = e.getMessage();
+        }
+
+        return new ResModel(code, message, musicianList);
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/space/{userId:\\d+}")
+    public ResModel getFuns(@PathVariable String userId, @RequestParam(defaultValue = "1") Integer page) {
+        String code = "200";
+        String message = "";
+        MusicianList musicianList = null;
+
+        try {
+            musicianList = musicianService.getFuns(userId, page);
         } catch (SingDataException e) {
             code = "400";
             message = e.getMessage();

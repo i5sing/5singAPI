@@ -50,4 +50,20 @@ public class SongController {
 
         return new ResModel(code, message, song);
     }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/space/{userId:\\d+}")
+    public ResModel getPersonalSongs(@RequestParam(required = true) String type, @PathVariable String userId, @RequestParam(defaultValue = "1") Integer page) {
+        String code = "200";
+        String message = "";
+        SongList songs = null;
+
+        try {
+            songs = singService.getPersonalSongs(userId, Conversion.convertSingType(type), page);
+        } catch (SingDataException e) {
+            code = "400";
+            message = e.getMessage();
+        }
+
+        return new ResModel(code, message, songs);
+    }
 }

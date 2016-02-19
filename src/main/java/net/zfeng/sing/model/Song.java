@@ -15,6 +15,15 @@ public class Song {
     private String lrcs;
     private String introduction;
     private String address;
+    private String uploadTime;
+
+    public String getUploadTime() {
+        return uploadTime;
+    }
+
+    public void setUploadTime(String uploadTime) {
+        this.uploadTime = uploadTime;
+    }
 
     public String getAuthorImg() {
         return authorImg;

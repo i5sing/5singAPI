@@ -28,4 +28,8 @@ public class SingService implements ISingService {
     public Song getSong(SingType type, String songId, int page) throws SingDataException {
         return parser.getSong(type, page, songId);
     }
+
+    public SongList getPersonalSongs(String userId, SingType type, int page) throws SingDataException {
+        return parser.getPersonalSongs(userId, type, page);
+    }
 }

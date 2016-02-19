@@ -16,4 +16,8 @@ public interface IParser {
     Song getSong(SingType type, int page, String songId) throws SingDataException;
 
     MusicianList getMusicians(int page) throws SingDataException;
+
+    SongList getPersonalSongs(String authorId, SingType type, int page) throws SingDataException;
+
+    MusicianList getFuns(String userId, int page) throws SingDataException;
 }

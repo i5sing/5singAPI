@@ -9,7 +9,9 @@ import java.util.Map;
 public enum SingUrl {
     SONG_LIST("http://5sing.kugou.com/m/list/{type}-{category}-{page}.html"),
     SONG_DETAIL("http://5sing.kugou.com/m/detail/{type}-{songId}-{page}.html"),
-    MUSICIAN_HOT("http://5sing.kugou.com/m/list/musician-hot-{page}.html");
+    MUSICIAN_HOT("http://5sing.kugou.com/m/list/musician-hot-{page}.html"),
+    AUTHOR_SONG_LIST("http://5sing.kugou.com/m/space/mysongs/{authorId}-{type}-{page}.html"),
+    AUTHOR_FUNS("http://5sing.kugou.com/m/space/fans/{authorId}-{page}.html");
 
     private String text;
 

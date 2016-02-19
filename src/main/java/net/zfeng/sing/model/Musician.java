@@ -6,7 +6,16 @@ package net.zfeng.sing.model;
 public class Musician {
     private String imgAddress;
     private String name;
-    private String address;
+    private String id;
+    private String introduction;
+
+    public String getIntroduction() {
+        return introduction;
+    }
+
+    public void setIntroduction(String introduction) {
+        this.introduction = introduction;
+    }
 
     public String getImgAddress() {
         return imgAddress;
@@ -24,11 +33,11 @@ public class Musician {
         this.name = name;
     }
 
-    public String getAddress() {
-        return address;
+    public String getId() {
+        return id;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setId(String id) {
+        this.id = id;
     }
 }

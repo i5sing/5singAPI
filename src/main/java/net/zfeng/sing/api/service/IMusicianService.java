@@ -9,4 +9,6 @@ import net.zfeng.sing.model.MusicianList;
 public interface IMusicianService {
 
     MusicianList getMusicians(int page) throws SingDataException;
+
+    MusicianList getFuns(String userId, int page) throws SingDataException;
 }

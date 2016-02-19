@@ -21,4 +21,8 @@ public class MusicianService implements IMusicianService {
     public MusicianList getMusicians(int page) throws SingDataException {
         return parser.getMusicians(page);
     }
+
+    public MusicianList getFuns(String userId, int page) throws SingDataException {
+        return parser.getFuns(userId, page);
+    }
 }

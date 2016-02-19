@@ -26,6 +26,7 @@ import java.util.regex.Pattern;
  */
 public class ParserImpl implements IParser {
     private static String SingIdRE = "^/m/detail/\\w+-([0-9]+)-\\d+.html$";
+    private static String UserIdRE = "^/m/space/([0-9]+).html$";
 
     /**
      * 加载并解析指定url的html
@@ -159,14 +160,22 @@ public class ParserImpl implements IParser {
     public MusicianList getMusicians(int page) throws SingDataException {
         MusicianList musicianList = new MusicianList();
         List<Musician> musicians = new ArrayList<Musician>();
+        Pattern userIdPattern = Pattern.compile(UserIdRE);
+
         try {
             Document doc = parserHTML(SingUrl.MUSICIAN_HOT.getText().replace("{page}", page + ""));
             Elements imgEls = doc.getElementById("photolist").getElementsByTag("a");
             int i = 0;
             while (i++ < imgEls.size() - 1) {
                 Element imgEl = imgEls.get(i);
+                Matcher userIdMatcher = userIdPattern.matcher(imgEl.attr("href"));
+
                 Musician musician = new Musician();
-                musician.setAddress(imgEl.attr("href"));
+
+                if (userIdMatcher.find() && userIdMatcher.group().length() > 1) {
+                    musician.setId(userIdMatcher.group(1));
+                }
+
                 musician.setName(imgEl.getElementsByTag("span").get(0).text());
                 musician.setImgAddress(imgEl.getElementsByTag("img").get(0).attr("src"));
                 musicians.add(musician);
@@ -177,6 +186,91 @@ public class ParserImpl implements IParser {
 
         musicianList.setList(musicians);
         musicianList.setPage(page);
+        return musicianList;
+    }
+
+    /**
+     * 获取个人歌曲列表
+     *
+     * @param authorId
+     * @param type
+     * @param page
+     * @return
+     * @throws SingDataException
+     */
+    public SongList getPersonalSongs(String authorId, SingType type, int page) throws SingDataException {
+        List<Song> songs = new ArrayList<Song>();
+        SongList songList = new SongList();
+        String url = SingUrl.AUTHOR_SONG_LIST.getText().replace("{authorId}", authorId).replace("{type}", type.getText()).replace("{page}", page + "");
+
+        try {
+            Document doc = parserHTML(url);
+            Elements songsEl = doc.getElementsByClass("list_items").get(0).getElementsByTag("li");
+            int i = 0;
+            while (i++ < songsEl.size() - 1) {
+                Song song = new Song();
+
+                Element songEl = songsEl.get(i);
+                Element infoEl = songEl.getElementsByTag("strong").get(0);
+                String infos = infoEl.text();
+
+                String name = songEl.getElementsByTag("h4").get(0).ownText();
+
+                song.setName(name);
+                song.setClickNumber(Integer.parseInt(infos.split(" ")[0].split("：")[1]));
+                song.setUploadTime(infos.split(" ")[1].split("：")[1]);
+
+                songs.add(song);
+            }
+            songList.setList(songs);
+        } catch (IOException e) {
+            throw new SingDataException("从五婶获取数据失败\n" + e.getMessage());
+        }
+        return songList;
+    }
+
+    /**
+     * 获取个人粉丝
+     *
+     * @param userId
+     * @param page
+     * @return
+     * @throws SingDataException
+     */
+    public MusicianList getFuns(String userId, int page) throws SingDataException {
+        MusicianList musicianList = new MusicianList();
+        List<Musician> musicians = new ArrayList<Musician>();
+        String url = SingUrl.AUTHOR_FUNS.getText().replace("{authorId}", userId).replace("{page}", page + "");
+        Pattern userIdPattern = Pattern.compile(UserIdRE);
+
+        try {
+            Document doc = parserHTML(url);
+            Elements funEls = doc.getElementsByClass("m_fans").get(0).getElementsByTag("li");
+            int i = 0;
+            while (i++ < funEls.size() - 1) {
+                Element funEl = funEls.get(i);
+                Musician musician = new Musician();
+
+                String img = funEl.getElementsByTag("img").get(0).attr("src");
+                String name = funEl.getElementsByTag("h6").get(0).ownText();
+                String introduction = funEl.getElementsByTag("p").get(0).text();
+                String hrefVal = funEl.getElementsByTag("a").get(0).attr("href");
+                Matcher userIdMatcher = userIdPattern.matcher(hrefVal);
+
+                if (userIdMatcher.find() && userIdMatcher.group().length() > 1) {
+                    musician.setId(userIdMatcher.group(1));
+                }
+                musician.setImgAddress(img);
+                musician.setName(name);
+                musician.setIntroduction(introduction);
+
+                musicians.add(musician);
+            }
+
+            musicianList.setList(musicians);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return musicianList;
     }
 }
