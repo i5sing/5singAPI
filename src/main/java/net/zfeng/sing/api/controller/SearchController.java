@@ -16,36 +16,6 @@ public class SearchController {
     @Resource
     private ISearchService searchService;
 
-    class SearchModel {
-        public String type;
-        public String key;
-        public Integer page;
-
-        public String getType() {
-            return type;
-        }
-
-        public void setType(String type) {
-            this.type = type;
-        }
-
-        public String getKey() {
-            return key;
-        }
-
-        public void setKey(String key) {
-            this.key = key;
-        }
-
-        public Integer getPage() {
-            return page;
-        }
-
-        public void setPage(Integer page) {
-            this.page = page;
-        }
-    }
-
     @RequestMapping(method = RequestMethod.POST)
     public ResModel search(@RequestBody SearchModel searchModel) {
         String code = "200";
@@ -60,5 +30,35 @@ public class SearchController {
         }
 
         return new ResModel(code, message, results);
+    }
+}
+
+class SearchModel {
+    public String type;
+    public String key;
+    public Integer page;
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
+    }
+
+    public Integer getPage() {
+        return page;
+    }
+
+    public void setPage(Integer page) {
+        this.page = page;
     }
 }
