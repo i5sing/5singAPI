@@ -2,6 +2,7 @@ package net.zfeng.sing.api.service.impl;
 
 import net.zfeng.sing.api.service.IMusicianService;
 import net.zfeng.sing.exception.SingDataException;
+import net.zfeng.sing.model.Musician;
 import net.zfeng.sing.model.MusicianList;
 import net.zfeng.sing.parser.IParser;
 import net.zfeng.sing.parser.impl.ParserImpl;
@@ -24,5 +25,9 @@ public class MusicianService implements IMusicianService {
 
     public MusicianList getFuns(String userId, int page) throws SingDataException {
         return parser.getFuns(userId, page);
+    }
+
+    public Musician getInfo(String userId) throws SingDataException {
+        return parser.getUserInfo(userId);
     }
 }
