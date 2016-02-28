@@ -32,7 +32,9 @@ public class SearchController {
         return new ResModel(code, message, results);
     }
 }
-
+/*
+* Search Model 不能作为内部类 否则否则和RequestBody 共同使用报415/400错误.
+*/
 class SearchModel {
     public String type;
     public String key;
