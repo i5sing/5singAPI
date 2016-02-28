@@ -1,6 +1,6 @@
 package net.zfeng.sing.api.service.impl;
 
-import net.zfeng.sing.api.service.ISingService;
+import net.zfeng.sing.api.service.ISongService;
 import net.zfeng.sing.exception.SingDataException;
 import net.zfeng.sing.model.Song;
 import net.zfeng.sing.model.SongList;
@@ -13,11 +13,11 @@ import org.springframework.stereotype.Service;
 /**
  * Created by zhaofeng on 16/2/5.
  */
-@Service("singService")
-public class SingService implements ISingService {
+@Service("songService")
+public class SongService implements ISongService {
     private IParser parser;
 
-    public SingService() {
+    public SongService() {
         parser = new ParserImpl();
     }
 

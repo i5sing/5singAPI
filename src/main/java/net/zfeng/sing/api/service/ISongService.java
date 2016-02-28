@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 /**
  * Created by zhaofeng on 16/2/5.
  */
-public interface ISingService {
+public interface ISongService {
 
     SongList getSongs(SingType type, SingCategory category, int page) throws SingDataException;
 

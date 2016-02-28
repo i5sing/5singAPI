@@ -11,7 +11,9 @@ public enum SingUrl {
     SONG_DETAIL("http://5sing.kugou.com/m/detail/{type}-{songId}-{page}.html"),
     MUSICIAN_HOT("http://5sing.kugou.com/m/list/musician-hot-{page}.html"),
     AUTHOR_SONG_LIST("http://5sing.kugou.com/m/space/mysongs/{authorId}-{type}-{page}.html"),
-    AUTHOR_FUNS("http://5sing.kugou.com/m/space/fans/{authorId}-{page}.html");
+    AUTHOR_FUNS("http://5sing.kugou.com/m/space/fans/{authorId}-{page}.html"),
+    AUTHOR_INFO("http://5sing.kugou.com/m/space/{authorId}.html"),
+    SEARCH("http://5sing.kugou.com/m/search.html?type={type}&key={key}&p={page}");
 
     private String text;
 
