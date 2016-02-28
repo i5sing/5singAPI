@@ -1,12 +1,10 @@
 package net.zfeng.sing.api.controller;
 
 import net.zfeng.sing.api.service.IMusicianService;
-import net.zfeng.sing.api.service.ISingService;
 import net.zfeng.sing.exception.SingDataException;
+import net.zfeng.sing.model.Musician;
 import net.zfeng.sing.model.MusicianList;
 import net.zfeng.sing.model.ResModel;
-import net.zfeng.sing.model.SongList;
-import net.zfeng.sing.utils.Conversion;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -50,6 +48,22 @@ public class MusicianController {
         }
 
         return new ResModel(code, message, musicianList);
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/space/{userId:\\d+}/info")
+    public ResModel getInfo(@PathVariable String userId) {
+        String code = "200";
+        String message = "";
+        Musician musician = null;
+
+        try {
+            musician = musicianService.getInfo(userId);
+        } catch (SingDataException e) {
+            code = "400";
+            message = e.getMessage();
+        }
+
+        return new ResModel(code, message, musician);
     }
 
 }

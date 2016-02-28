@@ -1,6 +1,6 @@
 package net.zfeng.sing.api.controller;
 
-import net.zfeng.sing.api.service.ISingService;
+import net.zfeng.sing.api.service.ISongService;
 import net.zfeng.sing.exception.SingDataException;
 import net.zfeng.sing.model.ResModel;
 import net.zfeng.sing.model.Song;
@@ -17,7 +17,7 @@ import javax.annotation.Resource;
 @RequestMapping("/songs")
 public class SongController {
     @Resource
-    private ISingService singService;
+    private ISongService singService;
 
     @RequestMapping(method = RequestMethod.GET)
     public ResModel getSongs(Integer page, String type, String category) {
