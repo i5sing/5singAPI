@@ -162,3 +162,63 @@
   }
 }
 ```
+
+### /api/search
+
+获取音乐人粉丝
+
+#### body
+| key                | value                                         |      |
+| -------------------|:---------------------------------------------:|:----:|
+| type               | yc(原创) fc(翻唱) bz(伴奏) user(会员)           | 可选 |
+| key                | 搜索关键字                                     | 可选 |
+| page(页数)         | 数字1-50                                       | 可选 |
+
+#### response
+```json
+//songs
+{
+  "code": "200",
+  "message": "",
+  "data": {
+    "page": 1,
+    "list": [
+      {
+        "id": "2493529",
+        "name": "《14forever》",
+        "author": "陈美伊",
+        "authorImg": "",
+        "style": "",
+        "clickNumber": 0,
+        "likeNumber": 0,
+        "downNumber": 0,
+        "lrcs": "",
+        "introduction": "",
+        "address": "",
+        "uploadTime": ""
+      }
+    ]
+  }
+}
+
+//users
+{
+  "code": "200",
+  "message": "",
+  "data": {
+    "page": 1,
+    "list": [
+      {
+        "imgAddress": "",
+        "name": "可心小屋",
+        "id": "8888383",
+        "introduction": "我是一个热爱音乐的女孩，1999年2月出生，2010年7月开始课余进行声乐训练。几年来，我陆续录制了..."
+      }
+    ]
+  }
+}
+```
+
+## Demp
+
+http://api.elf.org.cn

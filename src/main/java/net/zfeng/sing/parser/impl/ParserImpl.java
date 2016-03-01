@@ -16,6 +16,8 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -64,7 +66,7 @@ public class ParserImpl implements IParser {
         try {
             Document doc = parserHTML(SingUrls.getURL(SingUrl.SONG_LIST, type, category, page, null));
             Elements songListEl = doc.getElementById("yc_list_tj").getElementsByTag("li");
-            int i = 0;
+            int i = -1;
             while (i++ < songListEl.size() - 1) {
                 Element songEl = songListEl.get(i);
                 Element nameEl = songEl.getElementsByTag("h4").get(0);
@@ -165,7 +167,7 @@ public class ParserImpl implements IParser {
         try {
             Document doc = parserHTML(SingUrl.MUSICIAN_HOT.getText().replace("{page}", page + ""));
             Elements imgEls = doc.getElementById("photolist").getElementsByTag("a");
-            int i = 0;
+            int i = -1;
             while (i++ < imgEls.size() - 1) {
                 Element imgEl = imgEls.get(i);
                 Matcher userIdMatcher = userIdPattern.matcher(imgEl.attr("href"));
@@ -207,7 +209,7 @@ public class ParserImpl implements IParser {
         try {
             Document doc = parserHTML(url);
             Elements songsEl = doc.getElementsByClass("list_items").get(0).getElementsByTag("li");
-            int i = 0;
+            int i = -1;
             while (i++ < songsEl.size() - 1) {
                 Song song = new Song();
 
@@ -254,7 +256,7 @@ public class ParserImpl implements IParser {
         try {
             Document doc = parserHTML(url);
             Elements funEls = doc.getElementsByClass("m_fans").get(0).getElementsByTag("li");
-            int i = 0;
+            int i = -1;
             while (i++ < funEls.size() - 1) {
                 Element funEl = funEls.get(i);
                 Musician musician = new Musician();
@@ -322,19 +324,24 @@ public class ParserImpl implements IParser {
     public SongList searchSongs(String type, String key, int page) throws SingDataException {
         List<Song> songs = new ArrayList<Song>();
         SongList songList = new SongList();
-        String url = SingUrl.SEARCH.getText().replace("{type}", type).replace("{key}", key).replace("{page}", page + "");
+        String url = "";
+        try {
+            url = SingUrl.SEARCH.getText().replace("{type}", type).replace("{key}", URLEncoder.encode(key, "UTF-8")).replace("{page}", page + "");
+        } catch (UnsupportedEncodingException e) {
+            throw new SingDataException("encode error \n" + e.getMessage());
+        }
         Pattern pattern = Pattern.compile(SingIdRE);
 
         try {
             Document doc = parserHTML(url);
             Element songListEl = doc.getElementsByClass("list_items").get(0);
             Elements songEls = songListEl.getElementsByTag("li");
-            int i = 0;
+            int i = -1;
 
             while (i++ < songEls.size() - 1) {
                 Element songEl = songEls.get(i);
                 String href = songEl.getElementsByTag("a").get(0).attr("href");
-                String name = songEl.getElementsByTag("li").get(0).ownText();
+                String name = songEl.getElementsByTag("h4").get(0).ownText();
                 String author = songEl.getElementsByTag("strong").get(0).text();
                 Matcher matcher = pattern.matcher(href);
 
@@ -360,14 +367,19 @@ public class ParserImpl implements IParser {
     public MusicianList searchUsers(String key, int page) throws SingDataException {
         MusicianList musicianList = new MusicianList();
         List<Musician> musicians = new ArrayList<Musician>();
-        String url = SingUrl.SEARCH.getText().replace("{type}", "user").replace("{key}", key).replace("{page}", page + "");
+        String url = "";
+        try {
+            url = SingUrl.SEARCH.getText().replace("{type}", "user").replace("{key}", URLEncoder.encode(key, "UTF-8")).replace("{page}", page + "");
+        } catch (UnsupportedEncodingException e) {
+            throw new SingDataException("encode error \n" + e.getMessage());
+        }
         Pattern userIdPattern = Pattern.compile(UserIdRE);
 
         try {
             Document doc = parserHTML(url);
             Element userListEl = doc.getElementsByClass("m_fans").get(0);
             Elements userEls = userListEl.getElementsByTag("li");
-            int i = 0;
+            int i = -1;
 
             while (i++ < userEls.size() - 1) {
                 Element user = userEls.get(i);
