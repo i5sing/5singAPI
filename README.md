@@ -165,7 +165,7 @@
 
 ### /api/search
 
-获取音乐人粉丝
+搜索
 
 #### body
 | key                | value                                         |      |
@@ -221,4 +221,4 @@
 
 ## Demo
 
-http://api.elf.org.cn
+http://139.129.24.142:8080/5sing/
