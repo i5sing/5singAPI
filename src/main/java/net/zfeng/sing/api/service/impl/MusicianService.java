@@ -4,8 +4,8 @@ import net.zfeng.sing.api.service.IMusicianService;
 import net.zfeng.sing.exception.SingDataException;
 import net.zfeng.sing.model.Musician;
 import net.zfeng.sing.model.MusicianList;
-import net.zfeng.sing.parser.IParser;
-import net.zfeng.sing.parser.impl.ParserImpl;
+import net.zfeng.sing.parser.IMusicianParser;
+import net.zfeng.sing.parser.impl.MusicianParserImpl;
 import org.springframework.stereotype.Service;
 
 /**
@@ -13,10 +13,10 @@ import org.springframework.stereotype.Service;
  */
 @Service("musicianService")
 public class MusicianService implements IMusicianService {
-    private IParser parser;
+    private IMusicianParser parser;
 
     public MusicianService() {
-        parser = new ParserImpl();
+        parser = new MusicianParserImpl();
     }
 
     public MusicianList getMusicians(int page) throws SingDataException {

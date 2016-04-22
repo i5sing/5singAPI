@@ -6,6 +6,7 @@ import net.zfeng.sing.model.ResModel;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * Created by zhaofeng on 16/2/28.
@@ -17,7 +18,7 @@ public class SearchController {
     private ISearchService searchService;
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResModel search(@RequestBody SearchModel searchModel) {
+    public ResModel search(@RequestBody SearchModel searchModel, HttpServletResponse response) {
         String code = "200";
         String message = "";
         Object results = null;
@@ -27,6 +28,7 @@ public class SearchController {
         } catch (SingDataException e) {
             code = "400";
             message = e.getMessage();
+            response.setStatus(Integer.parseInt(code));
         }
 
         return new ResModel(code, message, results);

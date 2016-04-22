@@ -8,6 +8,7 @@ import net.zfeng.sing.model.ResModel;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * Created by zhaofeng on 16/2/8.
@@ -19,7 +20,7 @@ public class MusicianController {
     private IMusicianService musicianService;
 
     @RequestMapping(method = RequestMethod.GET)
-    public ResModel getSongs(Integer page) {
+    public ResModel getSongs(Integer page, HttpServletResponse response) {
         String code = "200";
         String message = "";
         MusicianList musicianList = null;
@@ -29,13 +30,18 @@ public class MusicianController {
         } catch (SingDataException e) {
             code = "400";
             message = e.getMessage();
+            response.setStatus(Integer.parseInt(code));
         }
 
         return new ResModel(code, message, musicianList);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/space/{userId:\\d+}")
-    public ResModel getFuns(@PathVariable String userId, @RequestParam(defaultValue = "1") Integer page) {
+    public ResModel getFuns(
+            @PathVariable String userId,
+            @RequestParam(defaultValue = "1") Integer page,
+            HttpServletResponse response
+    ) {
         String code = "200";
         String message = "";
         MusicianList musicianList = null;
@@ -45,13 +51,14 @@ public class MusicianController {
         } catch (SingDataException e) {
             code = "400";
             message = e.getMessage();
+            response.setStatus(Integer.parseInt(code));
         }
 
         return new ResModel(code, message, musicianList);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/space/{userId:\\d+}/info")
-    public ResModel getInfo(@PathVariable String userId) {
+    public ResModel getInfo(@PathVariable String userId, HttpServletResponse response) {
         String code = "200";
         String message = "";
         Musician musician = null;
@@ -61,6 +68,7 @@ public class MusicianController {
         } catch (SingDataException e) {
             code = "400";
             message = e.getMessage();
+            response.setStatus(Integer.parseInt(code));
         }
 
         return new ResModel(code, message, musician);

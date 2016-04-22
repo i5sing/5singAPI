@@ -3,14 +3,13 @@ package net.zfeng.sing.parser;
 import com.alibaba.fastjson.JSON;
 import junit.framework.TestCase;
 import net.zfeng.sing.exception.SingDataException;
-import net.zfeng.sing.parser.IParser;
-import net.zfeng.sing.parser.impl.ParserImpl;
+import net.zfeng.sing.parser.impl.SearchParserImpl;
 
 /**
  * Created by zhaofeng on 16/2/28.
  */
 public class ParserTest extends TestCase {
-    private IParser parser = new ParserImpl();
+    private ISearchParser parser = new SearchParserImpl();
 
     public void testSearchSongs() {
         try {

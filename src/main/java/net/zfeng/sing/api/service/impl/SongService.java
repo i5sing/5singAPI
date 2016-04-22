@@ -4,10 +4,10 @@ import net.zfeng.sing.api.service.ISongService;
 import net.zfeng.sing.exception.SingDataException;
 import net.zfeng.sing.model.Song;
 import net.zfeng.sing.model.SongList;
-import net.zfeng.sing.parser.IParser;
+import net.zfeng.sing.parser.ISongParser;
 import net.zfeng.sing.parser.config.SingCategory;
 import net.zfeng.sing.parser.config.SingType;
-import net.zfeng.sing.parser.impl.ParserImpl;
+import net.zfeng.sing.parser.impl.SongParserImpl;
 import org.springframework.stereotype.Service;
 
 /**
@@ -15,10 +15,10 @@ import org.springframework.stereotype.Service;
  */
 @Service("songService")
 public class SongService implements ISongService {
-    private IParser parser;
+    private ISongParser parser;
 
     public SongService() {
-        parser = new ParserImpl();
+        parser = new SongParserImpl();
     }
 
     public SongList getSongs(SingType type, SingCategory category, int page) throws SingDataException {

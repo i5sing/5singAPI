@@ -12,19 +12,5 @@ import net.zfeng.sing.parser.config.SingType;
  * Created by zhaofeng on 16/2/4.
  */
 public interface IParser {
-    SongList getSongs(SingType type, SingCategory category, int page) throws SingDataException;
 
-    Song getSong(SingType type, int page, String songId) throws SingDataException;
-
-    MusicianList getMusicians(int page) throws SingDataException;
-
-    SongList getPersonalSongs(String authorId, SingType type, int page) throws SingDataException;
-
-    MusicianList getFuns(String userId, int page) throws SingDataException;
-
-    Musician getUserInfo(String userId) throws SingDataException;
-
-    SongList searchSongs(String type, String key, int page) throws SingDataException;
-
-    MusicianList searchUsers(String key, int page) throws SingDataException;
 }

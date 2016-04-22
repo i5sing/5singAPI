@@ -2,9 +2,8 @@ package net.zfeng.sing.api.service.impl;
 
 import net.zfeng.sing.api.service.ISearchService;
 import net.zfeng.sing.exception.SingDataException;
-import net.zfeng.sing.model.SongList;
-import net.zfeng.sing.parser.IParser;
-import net.zfeng.sing.parser.impl.ParserImpl;
+import net.zfeng.sing.parser.ISearchParser;
+import net.zfeng.sing.parser.impl.SearchParserImpl;
 import org.springframework.stereotype.Service;
 
 /**
@@ -12,10 +11,10 @@ import org.springframework.stereotype.Service;
  */
 @Service("searchService")
 public class SearchService implements ISearchService {
-    private IParser parser;
+    private ISearchParser parser;
 
     public SearchService() {
-        parser = new ParserImpl();
+        parser = new SearchParserImpl();
     }
 
     public Object search(String type, String key, int page) throws SingDataException {

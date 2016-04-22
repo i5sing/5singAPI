@@ -9,6 +9,8 @@ import net.zfeng.sing.utils.Conversion;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * Created by zhaofeng on 16/2/5.
@@ -20,7 +22,7 @@ public class SongController {
     private ISongService singService;
 
     @RequestMapping(method = RequestMethod.GET)
-    public ResModel getSongs(Integer page, String type, String category) {
+    public ResModel getSongs(Integer page, String type, String category, HttpServletResponse response) {
         String code = "200";
         String message = "";
         SongList songs = null;
@@ -30,13 +32,19 @@ public class SongController {
         } catch (SingDataException e) {
             code = "400";
             message = e.getMessage();
+            response.setStatus(Integer.parseInt(code));
         }
 
         return new ResModel(code, message, songs);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/{songId:\\d+}")
-    public ResModel getSong(@RequestParam(required = true) String type, @PathVariable String songId, @RequestParam(defaultValue = "1") Integer page) {
+    public ResModel getSong(
+            @RequestParam(required = true) String type,
+            @PathVariable String songId,
+            @RequestParam(defaultValue = "1") Integer page,
+            HttpServletResponse response
+    ) {
         String code = "200";
         String message = "";
         Song song = null;
@@ -46,13 +54,19 @@ public class SongController {
         } catch (SingDataException e) {
             code = "400";
             message = e.getMessage();
+            response.setStatus(Integer.parseInt(code));
         }
 
         return new ResModel(code, message, song);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/space/{userId:\\d+}")
-    public ResModel getPersonalSongs(@RequestParam(required = true) String type, @PathVariable String userId, @RequestParam(defaultValue = "1") Integer page) {
+    public ResModel getPersonalSongs(
+            @RequestParam(required = true) String type,
+            @PathVariable String userId,
+            @RequestParam(defaultValue = "1") Integer page,
+            HttpServletResponse response
+    ) {
         String code = "200";
         String message = "";
         SongList songs = null;
@@ -62,6 +76,7 @@ public class SongController {
         } catch (SingDataException e) {
             code = "400";
             message = e.getMessage();
+            response.setStatus(Integer.parseInt(code));
         }
 
         return new ResModel(code, message, songs);
