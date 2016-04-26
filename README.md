@@ -1,8 +1,12 @@
 # 5singAPI
 
 ## Usage
+##### header
+```javascript
+content-type: 'application/json'
+```
 
-### /api/songs
+### [get]/api/songs
 
 获取热门歌曲  
 
@@ -38,7 +42,7 @@
 }
 ```
 
-### /api/songs/:songId
+### [get]/api/songs/:songId
 
 获取歌曲详情  
 
@@ -70,7 +74,7 @@
 }
 ```
 
-### /api/musicians
+### [get]/api/musicians
 
 获取热门音乐人
 
@@ -98,7 +102,7 @@
 }
 ```
 
-### /api/songs/space/:userId
+### [get]/api/songs/space/:userId
 
 获取音乐人歌曲
 
@@ -135,7 +139,7 @@
 }
 ```
 
-### /api/musicians/space/:userId
+### [get]/api/musicians/space/:userId
 
 获取音乐人粉丝
 
@@ -163,7 +167,7 @@
 }
 ```
 
-### /api/search
+### [post]/api/search
 
 搜索
 
