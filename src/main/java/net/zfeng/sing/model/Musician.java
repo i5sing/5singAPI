@@ -4,10 +4,10 @@ package net.zfeng.sing.model;
  * Created by zhaofeng on 16/2/8.
  */
 public class Musician {
-    private String imgAddress;
-    private String name;
-    private String id;
-    private String introduction;
+    private String imgAddress = "";
+    private String name = "";
+    private String id = "";
+    private String introduction = "";
 
     public String getIntroduction() {
         return introduction;

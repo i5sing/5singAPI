@@ -4,18 +4,18 @@ package net.zfeng.sing.model;
  * Created by zhaofeng on 16/2/4.
  */
 public class Song {
-    private String id;
-    private String name;
-    private String author;
-    private String authorImg;
-    private String style;
+    private String id = "";
+    private String name = "";
+    private String author = "";
+    private String authorImg = "";
+    private String style = "";
     private int clickNumber;
     private int likeNumber;
     private int downNumber;
-    private String lrcs;
-    private String introduction;
-    private String address;
-    private String uploadTime;
+    private String lrcs = "";
+    private String introduction = "";
+    private String address = "";
+    private String uploadTime = "";
 
     public String getUploadTime() {
         return uploadTime;
