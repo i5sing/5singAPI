@@ -18,7 +18,7 @@ public class SearchController {
     private ISearchService searchService;
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResModel search(@RequestBody SearchModel searchModel, HttpServletResponse response) {
+    public ResModel search(@RequestBody(required = true) SearchModel searchModel, HttpServletResponse response) {
         String code = "200";
         String message = "";
         Object results = null;
@@ -35,12 +35,12 @@ public class SearchController {
     }
 }
 /*
-* Search Model 不能作为内部类 否则否则和RequestBody 共同使用报415/400错误.
+* Search Model 不能作为内部类 否则和RequestBody 共同使用报415/400错误.
 */
 class SearchModel {
-    public String type;
-    public String key;
-    public Integer page;
+    private String type;
+    private String key;
+    private Integer page = 1;
 
     public String getType() {
         return type;

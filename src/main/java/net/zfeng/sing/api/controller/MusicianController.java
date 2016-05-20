@@ -20,7 +20,7 @@ public class MusicianController {
     private IMusicianService musicianService;
 
     @RequestMapping(method = RequestMethod.GET)
-    public ResModel getSongs(Integer page, HttpServletResponse response) {
+    public ResModel getSongs(@RequestParam(defaultValue = "1")Integer page, HttpServletResponse response) {
         String code = "200";
         String message = "";
         MusicianList musicianList = null;

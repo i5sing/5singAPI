@@ -22,7 +22,12 @@ public class SongController {
     private ISongService singService;
 
     @RequestMapping(method = RequestMethod.GET)
-    public ResModel getSongs(Integer page, String type, String category, HttpServletResponse response) {
+    public ResModel getSongs(
+            @RequestParam(defaultValue = "1") Integer page,
+            @RequestParam(required = true) String type,
+            @RequestParam(required = true) String category,
+            HttpServletResponse response
+    ) {
         String code = "200";
         String message = "";
         SongList songs = null;
