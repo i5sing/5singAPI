@@ -102,31 +102,20 @@ public class SongParserImpl extends ParserImpl implements ISongParser {
 
         try {
             Document doc = parserHTML(url);
-            Element headEl = doc.getElementsByClass("info_con").get(0).getElementsByTag("img").get(0);
-            Elements infoEls = doc.getElementsByClass("info_con").get(0).getElementsByTag("span");
-            Element titleEl = doc.getElementsByClass("m_title").get(0);
-            Element mp3El = doc.getElementById("myPlayer");
-            Element introductionEl = doc.getElementsByClass("info_txt").get(0);
-            Element lrcEl = doc.getElementsByClass("info_txt").get(1);
+            System.out.print(doc);
+            Element headEl = doc.getElementsByClass("cd-wrap").get(0).getElementsByTag("img").get(0);
+            Elements infoEls = doc.getElementsByClass("info-wrap").get(0).getElementsByTag("p");
+            Element mp3El = doc.getElementsByClass("play").get(0);
+            Element lrcEl = doc.getElementsByClass("lrc-wrap").get(0);
 
             song.setId(songId);
-            song.setName(titleEl.text().split(" - ")[1]);
-            song.setAddress(mp3El.attr("src"));
-            song.setIntroduction(introductionEl.text());
+            song.setName(infoEls.get(0).text());
+            song.setAddress(mp3El.attr("data-songinfo").split(",")[0]);
             song.setLrcs(lrcEl.text());
 
-            if (infoEls.size() > 4) {
-                String author = deleteExtraChar(infoEls.get(4).text()).split(":")[1];
-                int clickNumber = Integer.parseInt(deleteExtraChar(infoEls.get(5).text()).split(":")[1]);
-                int downNumber = Integer.parseInt(deleteExtraChar(infoEls.get(3).text()).split(":")[1]);
-                String style = deleteExtraChar(infoEls.get(4).text()).split(":")[1];
-
-                song.setAuthorImg(headEl.attr("src"));
-                song.setAuthor(author);
-                song.setClickNumber(clickNumber);
-                song.setDownNumber(downNumber);
-                song.setStyle(style);
-            }
+            String author = deleteExtraChar(infoEls.get(1).text());
+            song.setAuthorImg(headEl.attr("src"));
+            song.setAuthor(author);
         } catch (IOException e) {
             throw new SingDataException("从五婶获取数据失败\n" + e.getMessage());
         }
