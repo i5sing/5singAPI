@@ -1,4 +1,5 @@
 # 5singAPI
+已废弃，请使用原生API https://github.com/i5sing/5sing-mobile-api 
 
 ## Usage
 ##### header
